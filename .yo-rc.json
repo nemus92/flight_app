@@ -1,0 +1,37 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.myflight.app"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "monolith",
+    "baseName": "flight_app",
+    "packageName": "com.myflight.app",
+    "packageFolder": "com/myflight/app",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "OGIzYTkwMmMzMjIyZDc5Mjk2NjNhMWVkNGFmZjMyY2YxMDBiMDVmY2UxNzlmYjhiOTJkZjI1OTFjZThmNzc3YmI0NTQ0YjNhNGM2OGEyYTM5ODBmZGQ5OTEzZjNjMTVlOThjMGMwMTQ4NGZjN2UzMGZmZDhjNjZmYTE2MTExYjk=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1613036146498,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true
+  }
+}
