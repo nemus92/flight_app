@@ -2,12 +2,18 @@ package com.myflight.app.web.rest;
 
 import com.myflight.app.domain.Gate;
 import com.myflight.app.repository.GateRepository;
+import com.myflight.app.service.GateService;
 import com.myflight.app.web.rest.errors.BadRequestAlertException;
 
+import com.myflight.app.web.rest.vm.AvailableGatesVM;
+import com.myflight.app.web.rest.vm.UpdatedGateVM;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.undertow.util.BadRequestException;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +40,9 @@ public class GateResource {
     private String applicationName;
 
     private final GateRepository gateRepository;
+
+    @Autowired
+    GateService gateService;
 
     public GateResource(GateRepository gateRepository) {
         this.gateRepository = gateRepository;
@@ -77,6 +86,29 @@ public class GateResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, gate.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * {@code GET  /availableGates} : get all available gates.
+     *
+     * @return the list of gates in body.
+     */
+    @GetMapping("/availableGates")
+    public List<AvailableGatesVM> getAllAvailableGates() {
+        log.debug("REST request to get all Gates");
+        return gateService.findAllAvailable();
+    }
+
+    /**
+     * {@code POST  /updateGateAsAvailable/{id}} : Update the gate as available.
+     *
+     * @param id the gate to update.
+     * @return the {@link UpdatedGateVM} with status {@code 200 (Ok)} and with body the updated gate, or with status {@code 400 (Bad Request)} if the gate is already available.
+     */
+    @PostMapping("/updateGateAsAvailable/{id}")
+    public UpdatedGateVM updateGateToAvailable(@PathVariable @NotNull Long id) throws BadRequestException {
+        log.debug("REST request to update gate with id: " + id);
+        return gateService.updateGateToAvailable(id);
     }
 
     /**

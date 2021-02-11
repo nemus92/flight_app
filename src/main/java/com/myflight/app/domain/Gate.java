@@ -35,6 +35,15 @@ public class Gate implements Serializable {
     @Column(name = "date_available_to")
     private ZonedDateTime dateAvailableTo;
 
+    public Gate() {}
+
+    public Gate(String gateNumber, String flightNumber, ZonedDateTime dateAvailableFrom, ZonedDateTime dateAvailableTo) {
+        this.gateNumber = gateNumber;
+        this.flightNumber = flightNumber;
+        this.dateAvailableFrom = dateAvailableFrom;
+        this.dateAvailableTo = dateAvailableTo;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
