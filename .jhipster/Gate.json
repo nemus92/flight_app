@@ -1,0 +1,33 @@
+{
+  "name": "Gate",
+  "fields": [
+    {
+      "fieldName": "gateNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "flightNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateAvailableFrom",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "dateAvailableTo",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20210211190856",
+  "entityTableName": "gate",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

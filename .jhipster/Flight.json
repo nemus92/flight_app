@@ -1,0 +1,21 @@
+{
+  "name": "Flight",
+  "fields": [
+    {
+      "fieldName": "flightNumber",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20210211190756",
+  "entityTableName": "flight",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

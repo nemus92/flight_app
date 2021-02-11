@@ -48,6 +48,8 @@ public class CacheConfiguration {
             createCache(cm, com.myflight.app.domain.User.class.getName());
             createCache(cm, com.myflight.app.domain.Authority.class.getName());
             createCache(cm, com.myflight.app.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.myflight.app.domain.Flight.class.getName());
+            createCache(cm, com.myflight.app.domain.Gate.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
