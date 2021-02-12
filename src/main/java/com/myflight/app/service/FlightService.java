@@ -9,6 +9,7 @@ import com.myflight.app.web.rest.FlightResource;
 import com.myflight.app.web.rest.vm.AssignedGateVM;
 import com.myflight.app.web.rest.vm.FlightGateVM;
 import io.undertow.util.BadRequestException;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -61,9 +62,9 @@ public class FlightService {
 
     public FlightGateVM assignFlightToAvailableGate(FlightDTO flightDTO) throws DatabaseException, BadRequestException {
 
-        final List<Gate> gates = gateRepository.findAll();
+        final List<Gate> gates = gateRepository.getAllAvailableGates(ZonedDateTime.now());
 
-        final Optional<Gate> availableGate = gates.stream().filter(gate -> gate.getFlightNumber().isEmpty()).findFirst();
+        final Optional<Gate> availableGate = gates.stream().findFirst();
 
         if (availableGate.isEmpty()) {
             throw new NoResultException("There is no available gates to add the flight: " + flightDTO.getFlightNumber());

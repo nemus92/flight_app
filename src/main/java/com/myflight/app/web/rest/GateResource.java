@@ -2,6 +2,7 @@ package com.myflight.app.web.rest;
 
 import com.myflight.app.domain.Gate;
 import com.myflight.app.repository.GateRepository;
+import com.myflight.app.security.AuthoritiesConstants;
 import com.myflight.app.service.GateService;
 import com.myflight.app.web.rest.errors.BadRequestAlertException;
 
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,7 +70,7 @@ public class GateResource {
     }
 
     /**
-     * {@code PUT  /gates} : Updates an existing gate.
+     * {@code PUT  /updateGate} : Updates an existing gate.
      *
      * @param gate the gate to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated gate,
@@ -76,11 +78,12 @@ public class GateResource {
      * or with status {@code 500 (Internal Server Error)} if the gate couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/gates")
+    @PutMapping("/updateGate")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Gate> updateGate(@RequestBody Gate gate) throws URISyntaxException {
         log.debug("REST request to update Gate : {}", gate);
         if (gate.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id, gate with id: " + gate.getId() + " does not exist!", ENTITY_NAME, "idnull");
         }
         Gate result = gateRepository.save(gate);
         return ResponseEntity.ok()
@@ -106,9 +109,12 @@ public class GateResource {
      * @return the {@link UpdatedGateVM} with status {@code 200 (Ok)} and with body the updated gate, or with status {@code 400 (Bad Request)} if the gate is already available.
      */
     @PostMapping("/updateGateAsAvailable/{id}")
-    public UpdatedGateVM updateGateToAvailable(@PathVariable @NotNull Long id) throws BadRequestException {
+    public ResponseEntity<Long> updateGateToAvailable(@PathVariable @NotNull Long id) throws BadRequestException {
         log.debug("REST request to update gate with id: " + id);
-        return gateService.updateGateToAvailable(id);
+        Long result = gateService.updateGateToAvailable(id);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .body(result);
     }
 
     /**
