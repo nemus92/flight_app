@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import liquibase.pro.packaged.A;
+import liquibase.pro.packaged.B;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,12 +60,16 @@ public class GateService {
         return gate.get().getId();
     }
 
-    public Gate updateGate(GateDTO gateDTO) {
+    public Gate updateGate(GateDTO gateDTO) throws BadRequestException {
 
         final Optional<Gate> gate = gateRepository.findById(gateDTO.getId());
 
         if (gate.isEmpty()) {
             throw new NoResultException("Gate for id: " + gateDTO.getId() + " has not been found!");
+        }
+
+        if (gateDTO.getDateAvailableFrom().isAfter(gateDTO.getDateAvailableTo())) {
+            throw new BadRequestException("Date input incorrect. Date FROM cannot be after date TO.");
         }
 
         gate.get().setDateAvailableFrom(gateDTO.getDateAvailableFrom());

@@ -81,7 +81,7 @@ public class GateResource {
      */
     @PutMapping("/updateGate")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public ResponseEntity<Gate> updateGate(@RequestBody GateDTO gateDTO) throws URISyntaxException {
+    public ResponseEntity<Gate> updateGate(@RequestBody GateDTO gateDTO) throws URISyntaxException, BadRequestException {
         log.debug("REST request to update Gate : {}", gateDTO);
 
         Gate result = gateService.updateGate(gateDTO);
