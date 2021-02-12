@@ -4,6 +4,7 @@ import com.myflight.app.domain.Gate;
 import com.myflight.app.repository.GateRepository;
 import com.myflight.app.security.AuthoritiesConstants;
 import com.myflight.app.service.GateService;
+import com.myflight.app.service.dto.GateDTO;
 import com.myflight.app.web.rest.errors.BadRequestAlertException;
 
 import com.myflight.app.web.rest.vm.AvailableGatesVM;
@@ -72,7 +73,7 @@ public class GateResource {
     /**
      * {@code PUT  /updateGate} : Updates an existing gate.
      *
-     * @param gate the gate to update.
+     * @param gateDTO the gate to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated gate,
      * or with status {@code 400 (Bad Request)} if the gate is not valid,
      * or with status {@code 500 (Internal Server Error)} if the gate couldn't be updated.
@@ -80,14 +81,12 @@ public class GateResource {
      */
     @PutMapping("/updateGate")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public ResponseEntity<Gate> updateGate(@RequestBody Gate gate) throws URISyntaxException {
-        log.debug("REST request to update Gate : {}", gate);
-        if (gate.getId() == null) {
-            throw new BadRequestAlertException("Invalid id, gate with id: " + gate.getId() + " does not exist!", ENTITY_NAME, "idnull");
-        }
-        Gate result = gateRepository.save(gate);
+    public ResponseEntity<Gate> updateGate(@RequestBody GateDTO gateDTO) throws URISyntaxException {
+        log.debug("REST request to update Gate : {}", gateDTO);
+
+        Gate result = gateService.updateGate(gateDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, gate.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 

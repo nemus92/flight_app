@@ -2,6 +2,7 @@ package com.myflight.app.service;
 
 import com.myflight.app.domain.Gate;
 import com.myflight.app.repository.GateRepository;
+import com.myflight.app.service.dto.GateDTO;
 import com.myflight.app.web.rest.FlightResource;
 import com.myflight.app.web.rest.GateResource;
 import com.myflight.app.web.rest.errors.BadRequestAlertException;
@@ -58,7 +59,21 @@ public class GateService {
         return gate.get().getId();
     }
 
-    public void updateGateTimes() {}
+    public Gate updateGate(GateDTO gateDTO) {
+
+        final Optional<Gate> gate = gateRepository.findById(gateDTO.getId());
+
+        if (gate.isEmpty()) {
+            throw new NoResultException("Gate for id: " + gateDTO.getId() + " has not been found!");
+        }
+
+        gate.get().setDateAvailableFrom(gateDTO.getDateAvailableFrom());
+        gate.get().setDateAvailableTo(gateDTO.getDateAvailableTo());
+
+        gateRepository.save(gate.get());
+
+        return gate.get();
+    }
 
     public void insertGatesToDB() {
 
